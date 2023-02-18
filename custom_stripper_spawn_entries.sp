@@ -8,7 +8,7 @@ public Plugin myinfo =
     name = "Custom Stripper Spawn Entries",
     description = "Provides CS:GO, CS:S & DOD:S Custom Stripper Spawn Entries For The Map",
     author = "Hattrick HKS (CARAMEL® HACK)",
-    version = "1.0.0.0",
+    version = SOURCEMOD_VERSION,
     url = "https://hattrick.go.ro/",
 };
 
@@ -1133,10 +1133,10 @@ public void SkipMultiSpaces(char[] szIn, int nMax)
 
 public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szArg)
 {
-    static int nEntity = -1, nItr = 0, nStamp = 0, nTime = 0, nArgs = 0, nId = -1, nTeam = -1;
+    static int nEntity = -1, nItr = 0, nStamp = 0, nTime = 0, nArgs = 0, nId = -1, nTeam = -1, nNear = 0;
     static Handle hFile = null;
     static char szArgs[4][128], szTmp[256] = { 0, ... };
-    static float fPos[3] = { 0.000000, ... }, fAng[3] = { 0.000000, ... };
+    static float fPos[3] = { 0.000000, ... }, fAng[3] = { 0.000000, ... }, fNear = 0.000000;
 
     if (nPlr > 0)
     {
@@ -1210,9 +1210,9 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %.1f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %f %f %f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
@@ -1258,9 +1258,9 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %.1f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %f %f %f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
@@ -1309,9 +1309,9 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %.1f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %f %f %f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
@@ -1357,9 +1357,9 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0.0 %.1f 0.0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %f %f %f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
@@ -1511,6 +1511,15 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                 g_fAngA[g_nTotalA][0] = 0.000000;
                                                                 {
                                                                     g_fAngA[g_nTotalA][2] = 0.000000;
+                                                                    {
+                                                                        nNear = RoundToNearest(g_fAngA[g_nTotalA][1]);
+                                                                        {
+                                                                            fNear = float(nNear);
+                                                                            {
+                                                                                g_fAngA[g_nTotalA][1] = ((nNear == 180) ? (-180.000000) : (fNear));
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -1656,6 +1665,15 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                 g_fAngB[g_nTotalB][0] = 0.000000;
                                                                 {
                                                                     g_fAngB[g_nTotalB][2] = 0.000000;
+                                                                    {
+                                                                        nNear = RoundToNearest(g_fAngB[g_nTotalB][1]);
+                                                                        {
+                                                                            fNear = float(nNear);
+                                                                            {
+                                                                                g_fAngB[g_nTotalB][1] = ((nNear == 180) ? (-180.000000) : (fNear));
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -1925,14 +1943,14 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
 
                                                         for (nItr = 0; nItr < g_nTotalA; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_allies\"\n}\n",
-                                                                g_fPosA[nItr][0], g_fPosA[nItr][1], g_fPosA[nItr][2], g_fAngA[nItr][1]);
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%.1f %.1f %.1f\"\n    \"angles\" \"0.0 %d.0 0.0\"\n    \"classname\" \"info_player_allies\"\n}\n",
+                                                                g_fPosA[nItr][0], g_fPosA[nItr][1], g_fPosA[nItr][2], (((nNear = RoundToNearest(g_fAngA[nItr][1])) == 180) ? (-180) : (nNear)));
                                                         }
 
                                                         for (nItr = 0; nItr < g_nTotalB; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_axis\"\n}\n",
-                                                                g_fPosB[nItr][0], g_fPosB[nItr][1], g_fPosB[nItr][2], g_fAngB[nItr][1]);
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%.1f %.1f %.1f\"\n    \"angles\" \"0.0 %d.0 0.0\"\n    \"classname\" \"info_player_axis\"\n}\n",
+                                                                g_fPosB[nItr][0], g_fPosB[nItr][1], g_fPosB[nItr][2], (((nNear = RoundToNearest(g_fAngB[nItr][1])) == 180) ? (-180) : (nNear)));
                                                         }
                                                     }
 
@@ -1955,14 +1973,14 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
 
                                                         for (nItr = 0; nItr < g_nTotalA; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_terrorist\"\n}\n",
-                                                                g_fPosA[nItr][0], g_fPosA[nItr][1], g_fPosA[nItr][2], g_fAngA[nItr][1]);
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%.1f %.1f %.1f\"\n    \"angles\" \"0.0 %d.0 0.0\"\n    \"classname\" \"info_player_terrorist\"\n}\n",
+                                                                g_fPosA[nItr][0], g_fPosA[nItr][1], g_fPosA[nItr][2], (((nNear = RoundToNearest(g_fAngA[nItr][1])) == 180) ? (-180) : (nNear)));
                                                         }
 
                                                         for (nItr = 0; nItr < g_nTotalB; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_counterterrorist\"\n}\n",
-                                                                g_fPosB[nItr][0], g_fPosB[nItr][1], g_fPosB[nItr][2], g_fAngB[nItr][1]);
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%.1f %.1f %.1f\"\n    \"angles\" \"0.0 %d.0 0.0\"\n    \"classname\" \"info_player_counterterrorist\"\n}\n",
+                                                                g_fPosB[nItr][0], g_fPosB[nItr][1], g_fPosB[nItr][2], (((nNear = RoundToNearest(g_fAngB[nItr][1])) == 180) ? (-180) : (nNear)));
                                                         }
                                                     }
 
@@ -2115,11 +2133,39 @@ public Action TmrAng(Handle hTmr, any nUsrId)
 
                                                                     fAng[1] = ((nYaw == 180) ? (-180.000000) : (float(nYaw)));
                                                                     {
-                                                                        if (fAng[1] != fOrigYaw)
+                                                                        if (g_nEngVs == Engine_DODS)
                                                                         {
-                                                                            TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                            if (FloatAbs(fOrigYaw) >= FloatAbs(fAng[1]))
                                                                             {
-                                                                                PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                if (FloatAbs(fOrigYaw) - FloatAbs(fAng[1]) > 0.009)
+                                                                                {
+                                                                                    TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                                    {
+                                                                                        PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                    }
+                                                                                }
+                                                                            }
+
+                                                                            else
+                                                                            {
+                                                                                if (FloatAbs(fAng[1]) - FloatAbs(fOrigYaw) > 0.009)
+                                                                                {
+                                                                                    TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                                    {
+                                                                                        PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+
+                                                                        else
+                                                                        {
+                                                                            if (fOrigYaw != fAng[1])
+                                                                            {
+                                                                                TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                                {
+                                                                                    PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -2129,11 +2175,39 @@ public Action TmrAng(Handle hTmr, any nUsrId)
                                                                 {
                                                                     fAng[1] = ((nYaw == 180) ? (-180.000000) : (float(nYaw)));
                                                                     {
-                                                                        if (fAng[1] != fOrigYaw)
+                                                                        if (g_nEngVs == Engine_DODS)
                                                                         {
-                                                                            TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                            if (FloatAbs(fOrigYaw) >= FloatAbs(fAng[1]))
                                                                             {
-                                                                                PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                if (FloatAbs(fOrigYaw) - FloatAbs(fAng[1]) > 0.009)
+                                                                                {
+                                                                                    TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                                    {
+                                                                                        PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                    }
+                                                                                }
+                                                                            }
+
+                                                                            else
+                                                                            {
+                                                                                if (FloatAbs(fAng[1]) - FloatAbs(fOrigYaw) > 0.009)
+                                                                                {
+                                                                                    TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                                    {
+                                                                                        PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+
+                                                                        else
+                                                                        {
+                                                                            if (fOrigYaw != fAng[1])
+                                                                            {
+                                                                                TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                                {
+                                                                                    PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -2167,7 +2241,7 @@ public void OnEntityCreated(int nEntity, const char[] szClass)
         {
             if (StrContains(szClass, "weapon", false) != -1 || StrContains(szClass, "item", false) != -1 || StrContains(szClass, "doll", false) != -1)
             {
-                CreateTimer(1.0, TmrEntity, nEntity, TIMER_FLAG_NO_MAPCHANGE);
+                CreateTimer(1.000000, TmrEntity, nEntity, TIMER_FLAG_NO_MAPCHANGE);
             }
         }
     }
