@@ -1,6 +1,7 @@
 
 #include <sourcemod>
 #include <sdktools>
+#include <sdkhooks>
 
 public Plugin myinfo =
 {
@@ -55,6 +56,10 @@ public float g_fAngB[99][3];
 public int m_vecOrigin = 0;
 
 public int m_angRotation = 0;
+
+public int m_hOwner = 0;
+
+public int m_hOwnerEntity = 0;
 
 public int m_bInBZ = 0;
 public int m_bInBZBytes = 0;
@@ -1834,6 +1839,9 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                             CreateTimer(1.000000, TmrGlow, 0, TIMER_FLAG_NO_MAPCHANGE | TIMER_REPEAT);
                                                                             {
                                                                                 PrintToChat(nPlr, "/S1 /S2 /SR /SS /SN /SB /ST");
+                                                                                {
+                                                                                    CreateTimer(0.200000, TmrAng, GetClientUserId(nPlr), TIMER_FLAG_NO_MAPCHANGE | TIMER_REPEAT);
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -1917,13 +1925,13 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
 
                                                         for (nItr = 0; nItr < g_nTotalA; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %f 0.0\"\n    \"classname\" \"info_player_allies\"\n}\n",
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_allies\"\n}\n",
                                                                 g_fPosA[nItr][0], g_fPosA[nItr][1], g_fPosA[nItr][2], g_fAngA[nItr][1]);
                                                         }
 
                                                         for (nItr = 0; nItr < g_nTotalB; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %f 0.0\"\n    \"classname\" \"info_player_axis\"\n}\n",
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_axis\"\n}\n",
                                                                 g_fPosB[nItr][0], g_fPosB[nItr][1], g_fPosB[nItr][2], g_fAngB[nItr][1]);
                                                         }
                                                     }
@@ -1947,13 +1955,13 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
 
                                                         for (nItr = 0; nItr < g_nTotalA; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %f 0.0\"\n    \"classname\" \"info_player_terrorist\"\n}\n",
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_terrorist\"\n}\n",
                                                                 g_fPosA[nItr][0], g_fPosA[nItr][1], g_fPosA[nItr][2], g_fAngA[nItr][1]);
                                                         }
 
                                                         for (nItr = 0; nItr < g_nTotalB; nItr++)
                                                         {
-                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %f 0.0\"\n    \"classname\" \"info_player_counterterrorist\"\n}\n",
+                                                            WriteFileLine(hFile, "add:\n{\n    \"origin\" \"%f %f %f\"\n    \"angles\" \"0.0 %.1f 0.0\"\n    \"classname\" \"info_player_counterterrorist\"\n}\n",
                                                                 g_fPosB[nItr][0], g_fPosB[nItr][1], g_fPosB[nItr][2], g_fAngB[nItr][1]);
                                                         }
                                                     }
@@ -2037,6 +2045,151 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                 {
                                     PrintToChat(nPlr, "Only Available After Map Change");
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return Plugin_Continue;
+}
+
+public Action TmrAng(Handle hTmr, any nUsrId)
+{
+    static float fAng[3] = { 0.000000, ... }, fOrigYaw = 0.000000;
+    {
+        static int nPlr = 0, nYaw = 0, nEnd = 0;
+        {
+            if (g_bActive)
+            {
+                nPlr = GetClientOfUserId(nUsrId);
+                {
+                    if (nPlr > 0)
+                    {
+                        if (nPlr < 65)
+                        {
+                            if (MaxClients < 1 || nPlr <= MaxClients)
+                            {
+                                if (IsClientConnected(nPlr))
+                                {
+                                    if (IsClientInGame(nPlr))
+                                    {
+                                        if (IsClientAuthorized(nPlr))
+                                        {
+                                            if (IsPlayerAlive(nPlr))
+                                            {
+                                                GetClientEyeAngles(nPlr, fAng);
+                                                {
+                                                    fOrigYaw = fAng[1];
+                                                    {
+                                                        nYaw = RoundToNearest(fAng[1]);
+                                                        {
+                                                            nEnd = nYaw % 5;
+                                                            {
+                                                                if (nEnd != 0)
+                                                                {
+                                                                    switch (nEnd)
+                                                                    {
+                                                                        case 1, -4:
+                                                                        {
+                                                                            nYaw -= 1;
+                                                                        }
+
+                                                                        case 2, -3:
+                                                                        {
+                                                                            nYaw -= 2;
+                                                                        }
+
+                                                                        case 3, -2:
+                                                                        {
+                                                                            nYaw += 2;
+                                                                        }
+
+                                                                        default:
+                                                                        {
+                                                                            nYaw += 1;
+                                                                        }
+                                                                    }
+
+                                                                    fAng[1] = ((nYaw == 180) ? (-180.000000) : (float(nYaw)));
+                                                                    {
+                                                                        if (fAng[1] != fOrigYaw)
+                                                                        {
+                                                                            TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                            {
+                                                                                PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                else
+                                                                {
+                                                                    fAng[1] = ((nYaw == 180) ? (-180.000000) : (float(nYaw)));
+                                                                    {
+                                                                        if (fAng[1] != fOrigYaw)
+                                                                        {
+                                                                            TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
+                                                                            {
+                                                                                PrintHintText(nPlr, "Yaw %.0f", fAng[1]);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            return Plugin_Continue;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return Plugin_Stop;
+}
+
+public void OnEntityCreated(int nEntity, const char[] szClass)
+{
+    if (g_bActive)
+    {
+        if (nEntity != -1)
+        {
+            if (StrContains(szClass, "weapon", false) != -1 || StrContains(szClass, "item", false) != -1 || StrContains(szClass, "doll", false) != -1)
+            {
+                CreateTimer(1.0, TmrEntity, nEntity, TIMER_FLAG_NO_MAPCHANGE);
+            }
+        }
+    }
+}
+
+public Action TmrEntity(Handle hTmr, any nEntity)
+{
+    if (g_bActive)
+    {
+        if (nEntity != -1)
+        {
+            if (IsValidEntity(nEntity))
+            {
+                TryOnceReadOffs(nEntity, "m_hOwner", m_hOwner);
+                {
+                    TryOnceReadOffs(nEntity, "m_hOwnerEntity", m_hOwnerEntity);
+                    {
+                        if (-1 == GetEntDataEnt2(nEntity, m_hOwner))
+                        {
+                            if (-1 == GetEntDataEnt2(nEntity, m_hOwnerEntity))
+                            {
+                                AcceptEntityInput(nEntity, "KillHierarchy");
                             }
                         }
                     }
