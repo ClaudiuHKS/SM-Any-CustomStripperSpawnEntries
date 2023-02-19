@@ -2112,7 +2112,18 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
 
                                 else
                                 {
-                                    PrintToChat(nPlr, "Only Available After Map Change");
+                                    if (0 == strcmp(szArg, "/spawns", false) || 0 == strcmp(szArg, "/sn", false) || 0 == strcmp(szArg, "/s1", false) ||
+                                        0 == strcmp(szArg, "/s2", false) || 0 == strcmp(szArg, "/sr", false) || 0 == strcmp(szArg, "/ss", false) ||
+                                        0 == strncmp(szArg, "/st", 3, false) || 0 == strcmp(szArg, "/sb", false))
+                                    {
+                                        if (CheckCommandAccess(nPlr, "sm_stripper_spawns", 16384, false))
+                                        {
+                                            PrintToChat(nPlr, "Only After Map Change");
+                                            {
+                                                return Plugin_Handled;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
