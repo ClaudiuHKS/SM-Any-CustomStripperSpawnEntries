@@ -1100,7 +1100,7 @@ public void SkipMultiSpaces(char[] szItm, int nMax)
 
                             else
                             {
-                                for (nItr = 0, nChr = 0, cTmp = ' ', nSze = sizeof szTmp; ((nItr < nLen) && (nChr < nSze)); nItr++)
+                                for (nItr = 0, nChr = 0, cTmp = ' ', nSze = sizeof szTmp; ((nItr < nLen) && (nChr < nSze) && (nChr < nMax)); nItr++)
                                 {
                                     if (szItm[nItr] != ' ')
                                     {
@@ -1140,13 +1140,16 @@ public void SkipMultiSpaces(char[] szItm, int nMax)
                                     {
                                         if (nMax <= nChr)
                                         {
-                                            if (szTmp[nMax - 1] == ' ')
+                                            nChr = nMax;
                                             {
-                                                szTmp[--nMax] = 0;
+                                                if (szTmp[nChr - 1] == ' ')
+                                                {
+                                                    szTmp[--nChr] = 0;
+                                                }
                                             }
                                         }
 
-                                        if (nMax > 0)
+                                        if (nChr > 0)
                                         {
                                             strcopy(szItm, nMax, szTmp);
                                         }
