@@ -1079,51 +1079,91 @@ public void TryOnceReadOffsComplex(int nEntity, char[] szItm, int& nOffs, int& n
     }
 }
 
-public void SkipMultiSpaces(char[] szIn, int nMax)
+public void SkipMultiSpaces(char[] szItm, int nMax)
 {
     static int nItr = 0;
     {
         static int nLen = 0;
         {
-            static int nChrs = 0;
+            static int nChr = 0;
             {
-                static char szTmp[256] = { 0, ... };
+                static int nSze = 0;
                 {
-                    static char cStamp = 0;
+                    static char szTmp[256] = { 0, ... };
                     {
-                        for (nItr = 0, nChrs = 0, cStamp = ' ', nLen = strlen(szIn); nItr < nLen && nChrs < sizeof szTmp; nItr++)
+                        static char cTmp = 0;
                         {
-                            if (szIn[nItr] != ' ')
+                            if ((nMax < 1) || ((nLen = strlen(szItm)) < 1))
                             {
-                                szTmp[nChrs++] = szIn[nItr];
-                                {
-                                    cStamp = szIn[nItr];
-                                }
+                                szItm[0] = 0;
                             }
 
                             else
                             {
-                                if (cStamp != ' ')
+                                for (nItr = 0, nChr = 0, cTmp = ' ', nSze = sizeof szTmp; ((nItr < nLen) && (nChr < nSze)); nItr++)
                                 {
-                                    szTmp[nChrs++] = szIn[nItr];
+                                    if (szItm[nItr] != ' ')
                                     {
-                                        cStamp = szIn[nItr];
+                                        szTmp[nChr++] = szItm[nItr];
+                                        {
+                                            cTmp = szItm[nItr];
+                                        }
                                     }
+
+                                    else
+                                    {
+                                        if (cTmp != ' ')
+                                        {
+                                            szTmp[nChr++] = szItm[nItr];
+                                            {
+                                                cTmp = szItm[nItr];
+                                            }
+                                        }
+                                    }
+                                }
+
+                                szTmp[nChr] = 0;
+
+                                if (nChr > 0)
+                                {
+                                    if (szTmp[nChr - 1] == ' ')
+                                    {
+                                        szTmp[--nChr] = 0;
+                                    }
+
+                                    if (nChr < 1)
+                                    {
+                                        szItm[0] = 0;
+                                    }
+
+                                    else
+                                    {
+                                        if (nMax <= nChr)
+                                        {
+                                            if (szTmp[nMax - 1] == ' ')
+                                            {
+                                                szTmp[--nMax] = 0;
+                                            }
+                                        }
+
+                                        if (nMax > 0)
+                                        {
+                                            strcopy(szItm, nMax, szTmp);
+                                        }
+
+                                        else
+                                        {
+                                            szItm[0] = 0;
+                                        }
+                                    }
+                                }
+
+                                else
+                                {
+                                    szItm[0] = 0;
                                 }
                             }
                         }
-
-                        szTmp[nChrs] = 0;
-
-                        if (nChrs > 0)
-                        {
-                            if (szTmp[nChrs - 1] == ' ')
-                            {
-                                szTmp[--nChrs] = 0;
-                            }
-                        }
-
-                        strcopy(szIn, nMax, szTmp);
                     }
                 }
             }
