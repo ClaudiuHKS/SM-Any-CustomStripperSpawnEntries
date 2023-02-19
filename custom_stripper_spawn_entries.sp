@@ -1210,9 +1210,11 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %.0f 0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %d 0", nItr, nTeam < 1 ? 'A' : 'B',
+                                                                                                                                                        (((nApprox = RoundToNearest(fAng[1])) == 180) ? (-180) : (nApprox)));
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f",
+                                                                                                                                                            nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
@@ -1258,9 +1260,11 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %.0f 0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %d 0", nItr, nTeam < 1 ? 'A' : 'B',
+                                                                                                                                                        (((nApprox = RoundToNearest(fAng[1])) == 180) ? (-180) : (nApprox)));
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f",
+                                                                                                                                                            nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
@@ -1309,9 +1313,11 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %.0f 0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %d 0", nItr, nTeam < 1 ? 'A' : 'B',
+                                                                                                                                                        (((nApprox = RoundToNearest(fAng[1])) == 180) ? (-180) : (nApprox)));
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f",
+                                                                                                                                                            nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
@@ -1357,9 +1363,11 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                                                                                             {
                                                                                                                                                 TeleportEntity(nPlr, fPos, fAng, NULL_VECTOR);
                                                                                                                                                 {
-                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %.0f 0", nItr, nTeam < 1 ? 'A' : 'B', fAng[1]);
+                                                                                                                                                    PrintToChat(nPlr, "(#%02d %c) Ang 0 %d 0", nItr, nTeam < 1 ? 'A' : 'B',
+                                                                                                                                                        (((nApprox = RoundToNearest(fAng[1])) == 180) ? (-180) : (nApprox)));
                                                                                                                                                     {
-                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
+                                                                                                                                                        PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f",
+                                                                                                                                                            nItr, nTeam < 1 ? 'A' : 'B', fPos[0], fPos[1], fPos[2]);
                                                                                                                                                         {
                                                                                                                                                             return Plugin_Handled;
                                                                                                                                                         }
