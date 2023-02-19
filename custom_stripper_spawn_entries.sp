@@ -2133,7 +2133,7 @@ public Action TmrAng(Handle hTmr, any nUsrId)
 
                                                                     fAng[1] = ((nYaw == 180) ? (-180.000000) : (float(nYaw)));
                                                                     {
-                                                                        if (g_nEngVs == Engine_DODS)
+                                                                        if (g_nEngVs != Engine_CSGO)
                                                                         {
                                                                             fAbsOrigYaw = FloatAbs(fOrigYaw);
                                                                             {
@@ -2181,7 +2181,7 @@ public Action TmrAng(Handle hTmr, any nUsrId)
                                                                 {
                                                                     fAng[1] = ((nYaw == 180) ? (-180.000000) : (float(nYaw)));
                                                                     {
-                                                                        if (g_nEngVs == Engine_DODS)
+                                                                        if (g_nEngVs != Engine_CSGO)
                                                                         {
                                                                             fAbsOrigYaw = FloatAbs(fOrigYaw);
                                                                             {
