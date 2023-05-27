@@ -232,6 +232,789 @@ public APLRes AskPluginLoad2(Handle hSelf, bool bLate, char[] szError, int nSize
     return APLRes_Success;
 }
 
+public bool removeThisSpawn(int nPlayer)
+{
+    static int nEntity = -1, nSelected = -1, nNewA = 0, nNewB = 0, nIter = 0, nIndex = 0;
+
+    static bool bTeamA = false;
+
+    static float fPos[3] = { 0.000000, ... }, fEyePos[3] = { 0.000000, ... }, fDis = 0.000000, fDisStamp = 1711489163.000000, fPosStamp[3] = { 0.000000, ... },
+        fPosCopyA[99][3], fAngCopyA[99][3], fPosCopyB[99][3], fAngCopyB[99][3];
+
+    GetClientEyePosition(nPlayer, fEyePos);
+    {
+        fDisStamp = 1711489163.000000;
+        {
+            nSelected = -1;
+        }
+    }
+
+    if (g_nEngVs != Engine_DODS)
+    {
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_counterterrorist")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_terrorist")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    else
+    {
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_axis")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_allies")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (nSelected == -1)
+    {
+        return false;
+    }
+
+    nIndex = spawnIndexAndTeamByPos(fPosStamp[0], fPosStamp[1], fPosStamp[2], bTeamA);
+
+    if (nIndex == -1)
+    {
+        return false;
+    }
+
+    AcceptEntityInput(nSelected, "KillHierarchy");
+    {
+        for (nIter = 0, nNewA = 0; nIter < g_nTotalA; nIter++)
+        {
+            if (g_fPosA[nIter][0] == fPosStamp[0] && g_fPosA[nIter][1] == fPosStamp[1] && g_fPosA[nIter][2] == fPosStamp[2])
+            {
+                /* ... */
+            }
+
+            else
+            {
+                fPosCopyA[nNewA][0] = g_fPosA[nIter][0];
+                fPosCopyA[nNewA][1] = g_fPosA[nIter][1];
+                fPosCopyA[nNewA][2] = g_fPosA[nIter][2];
+
+                fAngCopyA[nNewA][0] = g_fAngA[nIter][0];
+                fAngCopyA[nNewA][1] = g_fAngA[nIter][1];
+                fAngCopyA[nNewA][2] = g_fAngA[nIter][2];
+
+                nNewA++;
+            }
+        }
+
+        for (nIter = 0, nNewB = 0; nIter < g_nTotalB; nIter++)
+        {
+            if (g_fPosB[nIter][0] == fPosStamp[0] && g_fPosB[nIter][1] == fPosStamp[1] && g_fPosB[nIter][2] == fPosStamp[2])
+            {
+                /* ... */
+            }
+
+            else
+            {
+                fPosCopyB[nNewB][0] = g_fPosB[nIter][0];
+                fPosCopyB[nNewB][1] = g_fPosB[nIter][1];
+                fPosCopyB[nNewB][2] = g_fPosB[nIter][2];
+
+                fAngCopyB[nNewB][0] = g_fAngB[nIter][0];
+                fAngCopyB[nNewB][1] = g_fAngB[nIter][1];
+                fAngCopyB[nNewB][2] = g_fAngB[nIter][2];
+
+                nNewB++;
+            }
+        }
+    }
+
+    for (nIter = 0, g_nTotalA = nNewA; nIter < nNewA; nIter++)
+    {
+        g_fPosA[nIter][0] = fPosCopyA[nIter][0];
+        g_fPosA[nIter][1] = fPosCopyA[nIter][1];
+        g_fPosA[nIter][2] = fPosCopyA[nIter][2];
+
+        g_fAngA[nIter][0] = fAngCopyA[nIter][0];
+        g_fAngA[nIter][1] = fAngCopyA[nIter][1];
+        g_fAngA[nIter][2] = fAngCopyA[nIter][2];
+    }
+
+    for (nIter = 0, g_nTotalB = nNewB; nIter < nNewB; nIter++)
+    {
+        g_fPosB[nIter][0] = fPosCopyB[nIter][0];
+        g_fPosB[nIter][1] = fPosCopyB[nIter][1];
+        g_fPosB[nIter][2] = fPosCopyB[nIter][2];
+
+        g_fAngB[nIter][0] = fAngCopyB[nIter][0];
+        g_fAngB[nIter][1] = fAngCopyB[nIter][1];
+        g_fAngB[nIter][2] = fAngCopyB[nIter][2];
+    }
+
+    PrintToChat(nPlayer, "(#%02d %c) Pos %.1f %.1f %.1f", nIndex, bTeamA ? 'A' : 'B', fPosStamp[0], fPosStamp[1], fPosStamp[2]);
+    {
+        PrintToChat(nPlayer, "%02d Entries For Team %c", bTeamA ? nNewA : nNewB, bTeamA ? 'A' : 'B');
+    }
+
+    return true;
+}
+
+public int spawnIndexAndTeamByPos(float fX, float fY, float fZ, bool & bTeamA)
+{
+    static int nIter = 0;
+
+    bTeamA = false;
+
+    for (nIter = 0, bTeamA = true; nIter < g_nTotalA; nIter++)
+    {
+        if (g_fPosA[nIter][0] == fX && g_fPosA[nIter][1] == fY && g_fPosA[nIter][2] == fZ)
+        {
+            return nIter;
+        }
+    }
+
+    for (nIter = 0, bTeamA = false; nIter < g_nTotalB; nIter++)
+    {
+        if (g_fPosB[nIter][0] == fX && g_fPosB[nIter][1] == fY && g_fPosB[nIter][2] == fZ)
+        {
+            return nIter;
+        }
+    }
+
+    return -1;
+}
+
+public bool tryThisSpawn(int nPlayer)
+{
+    static int nEntity = -1, nSelected = -1, nIndex = -1, nApprox = 0;
+
+    static bool bTeamA = false;
+
+    static float fPos[3] = { 0.000000, ... }, fAng[3] = { 0.000000, ... }, fEyePos[3] = { 0.000000, ... }, fDis = 0.000000, fDisStamp = 1711489163.000000,
+        fPosStamp[3] = { 0.000000, ... }, fAngStamp[3] = { 0.000000, ... };
+
+    GetClientEyePosition(nPlayer, fEyePos);
+    {
+        fDisStamp = 1711489163.000000;
+        {
+            nSelected = -1;
+        }
+    }
+
+    if (g_nEngVs != Engine_DODS)
+    {
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_counterterrorist")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+
+                                                    TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                    {
+                                                        if (m_angRotation > 0)
+                                                        {
+                                                            GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                            {
+                                                                fAngStamp[0] = fAng[0];
+                                                                fAngStamp[1] = fAng[1];
+                                                                fAngStamp[2] = fAng[2];
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+
+                                                TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                {
+                                                    if (m_angRotation > 0)
+                                                    {
+                                                        GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                        {
+                                                            fAngStamp[0] = fAng[0];
+                                                            fAngStamp[1] = fAng[1];
+                                                            fAngStamp[2] = fAng[2];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_terrorist")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+
+                                                    TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                    {
+                                                        if (m_angRotation > 0)
+                                                        {
+                                                            GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                            {
+                                                                fAngStamp[0] = fAng[0];
+                                                                fAngStamp[1] = fAng[1];
+                                                                fAngStamp[2] = fAng[2];
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+
+                                                TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                {
+                                                    if (m_angRotation > 0)
+                                                    {
+                                                        GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                        {
+                                                            fAngStamp[0] = fAng[0];
+                                                            fAngStamp[1] = fAng[1];
+                                                            fAngStamp[2] = fAng[2];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    else
+    {
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_axis")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+
+                                                    TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                    {
+                                                        if (m_angRotation > 0)
+                                                        {
+                                                            GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                            {
+                                                                fAngStamp[0] = fAng[0];
+                                                                fAngStamp[1] = fAng[1];
+                                                                fAngStamp[2] = fAng[2];
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+
+                                                TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                {
+                                                    if (m_angRotation > 0)
+                                                    {
+                                                        GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                        {
+                                                            fAngStamp[0] = fAng[0];
+                                                            fAngStamp[1] = fAng[1];
+                                                            fAngStamp[2] = fAng[2];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        nEntity = -1;
+        {
+            while ((nEntity = FindEntityByClassname(nEntity, "info_player_allies")) != -1)
+            {
+                TryOnceReadOffsComplex(nEntity, "m_fEffects", m_fEffects, m_fEffectsBytes);
+                {
+                    if (m_fEffects > 0)
+                    {
+                        if (!(GetEntData(nEntity, m_fEffects, m_fEffectsBytes) & 32))
+                        {
+                            TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                            {
+                                if (m_vecOrigin > 0)
+                                {
+                                    GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                    {
+                                        if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                        {
+                                            nSelected = nEntity;
+                                            {
+                                                fDisStamp = fDis;
+                                                {
+                                                    fPosStamp[0] = fPos[0];
+                                                    fPosStamp[1] = fPos[1];
+                                                    fPosStamp[2] = fPos[2];
+
+                                                    TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                    {
+                                                        if (m_angRotation > 0)
+                                                        {
+                                                            GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                            {
+                                                                fAngStamp[0] = fAng[0];
+                                                                fAngStamp[1] = fAng[1];
+                                                                fAngStamp[2] = fAng[2];
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        TryOnceReadOffs(nEntity, "m_vecOrigin", m_vecOrigin);
+                        {
+                            if (m_vecOrigin > 0)
+                            {
+                                GetEntDataVector(nEntity, m_vecOrigin, fPos);
+                                {
+                                    if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
+                                    {
+                                        nSelected = nEntity;
+                                        {
+                                            fDisStamp = fDis;
+                                            {
+                                                fPosStamp[0] = fPos[0];
+                                                fPosStamp[1] = fPos[1];
+                                                fPosStamp[2] = fPos[2];
+
+                                                TryOnceReadOffs(nEntity, "m_angRotation", m_angRotation);
+                                                {
+                                                    if (m_angRotation > 0)
+                                                    {
+                                                        GetEntDataVector(nEntity, m_angRotation, fAng);
+                                                        {
+                                                            fAngStamp[0] = fAng[0];
+                                                            fAngStamp[1] = fAng[1];
+                                                            fAngStamp[2] = fAng[2];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (nSelected == -1)
+    {
+        return false;
+    }
+
+    nIndex = spawnIndexAndTeamByPos(fPosStamp[0], fPosStamp[1], fPosStamp[2], bTeamA);
+    {
+        if (nIndex != -1)
+        {
+            TeleportEntity(nPlayer, fPosStamp, fAngStamp, NULL_VECTOR);
+            {
+                PrintToChat(nPlayer, "(#%02d %c) Ang 0 %d 0", nIndex, bTeamA ? 'A' : 'B', (((nApprox = RoundToNearest(fAngStamp[1])) == 180) ? (-180) : (nApprox)));
+                {
+                    PrintToChat(nPlayer, "(#%02d %c) Pos %.1f %.1f %.1f", nIndex, bTeamA ? 'A' : 'B', fPosStamp[0], fPosStamp[1], fPosStamp[2]);
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
 public bool FilterPlayer(int nEntity, int nCnts, int nPlr)
 {
     return nPlr != nEntity;
@@ -1467,6 +2250,48 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                             return Plugin_Handled;
                                         }
 
+                                        else if (strcmp(szArg, "/sxr", false) == 0)
+                                        {
+                                            if (!g_bActive)
+                                            {
+                                                PrintToChat(nPlr, "Type /SPAWNS Before");
+                                                {
+                                                    return Plugin_Handled;
+                                                }
+                                            }
+
+                                            if (!removeThisSpawn(nPlr))
+                                            {
+                                                PrintToChat(nPlr, "Error Deleting Spawn Entry");
+                                                {
+                                                    return Plugin_Handled;
+                                                }
+                                            }
+
+                                            return Plugin_Handled;
+                                        }
+
+                                        else if (strcmp(szArg, "/sxt", false) == 0)
+                                        {
+                                            if (!g_bActive)
+                                            {
+                                                PrintToChat(nPlr, "Type /SPAWNS Before");
+                                                {
+                                                    return Plugin_Handled;
+                                                }
+                                            }
+
+                                            if (!tryThisSpawn(nPlr))
+                                            {
+                                                PrintToChat(nPlr, "Error Trying Spawn Entry");
+                                                {
+                                                    return Plugin_Handled;
+                                                }
+                                            }
+
+                                            return Plugin_Handled;
+                                        }
+
                                         else if (strcmp(szArg, "/s1", false) == 0)
                                         {
                                             if (!g_bActive)
@@ -1907,7 +2732,7 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                                         {
                                                                             CreateTimer(1.000000, TmrGlow, 0, TIMER_FLAG_NO_MAPCHANGE | TIMER_REPEAT);
                                                                             {
-                                                                                PrintToChat(nPlr, "/S1 /S2 /SR /SS /SN /SB /ST");
+                                                                                PrintToChat(nPlr, "/S1 /S2 /SR /SS /SN /SB /ST /SXR /SXT");
                                                                                 {
                                                                                     CreateTimer(0.200000, TmrAng, GetClientUserId(nPlr), TIMER_FLAG_NO_MAPCHANGE | TIMER_REPEAT);
                                                                                 }
@@ -2114,7 +2939,8 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                 {
                                     if (0 == strcmp(szArg, "/spawns", false) || 0 == strcmp(szArg, "/sn", false) || 0 == strcmp(szArg, "/s1", false) ||
                                         0 == strcmp(szArg, "/s2", false) || 0 == strcmp(szArg, "/sr", false) || 0 == strcmp(szArg, "/ss", false) ||
-                                        0 == strncmp(szArg, "/st", 3, false) || 0 == strcmp(szArg, "/sb", false))
+                                        0 == strncmp(szArg, "/st", 3, false) || 0 == strcmp(szArg, "/sb", false) || 0 == strcmp(szArg, "/sxr", false) ||
+                                        0 == strcmp(szArg, "/sxt", false))
                                     {
                                         if (CheckCommandAccess(nPlr, "sm_stripper_spawns", 16384, false))
                                         {
