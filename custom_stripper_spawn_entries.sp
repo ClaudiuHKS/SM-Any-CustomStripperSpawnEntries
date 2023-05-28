@@ -116,7 +116,7 @@ public void OnMapEnd()
 {
     if (g_bActive)
     {
-        RestoreOrigVars();
+        RestoreOrgVars();
         {
             g_bActive = false;
             {
@@ -146,7 +146,7 @@ public void OnPluginEnd()
     OnMapEnd();
 }
 
-public void ParseOrigVars()
+public void ParseOrgVars()
 {
     static Handle hVar = null;
     {
@@ -183,7 +183,7 @@ public void ParseOrigVars()
     }
 }
 
-public void RestoreOrigVars()
+public void RestoreOrgVars()
 {
     ServerCommand("mp_fraglimit %d; mp_roundtime %d; mp_roundtime_defuse %d; mp_roundtime_hostage %d; mp_roundtime_bomb %d; mp_roundtime_rescue %d; mp_buytime %d; mp_teamlimit %d;",
         mp_fraglimit, mp_roundtime, mp_roundtime_defuse, mp_roundtime_hostage, mp_roundtime_bomb, mp_roundtime_rescue, mp_buytime, mp_teamlimit);
@@ -232,20 +232,20 @@ public APLRes AskPluginLoad2(Handle hSelf, bool bLate, char[] szError, int nSize
     return APLRes_Success;
 }
 
-public bool removeThisSpawn(int nPlayer)
+public bool RmThis(int nPlr)
 {
-    static int nEntity = -1, nSelected = -1, nNewA = 0, nNewB = 0, nIter = 0, nIndex = 0;
+    static int nEntity = -1, nSpawn = -1, nNewA = 0, nNewB = 0, nItr = 0, nIdx = -1;
 
     static bool bTeamA = false;
 
     static float fPos[3] = { 0.000000, ... }, fEyePos[3] = { 0.000000, ... }, fDis = 0.000000, fDisStamp = 1711489163.000000, fPosStamp[3] = { 0.000000, ... },
-        fPosCopyA[99][3], fAngCopyA[99][3], fPosCopyB[99][3], fAngCopyB[99][3];
+        fPosCpyA[99][3], fAngCpyA[99][3], fPosCpyB[99][3], fAngCpyB[99][3];
 
-    GetClientEyePosition(nPlayer, fEyePos);
+    GetClientEyePosition(nPlr, fEyePos);
     {
         fDisStamp = 1711489163.000000;
         {
-            nSelected = -1;
+            nSpawn = -1;
         }
     }
 
@@ -269,7 +269,7 @@ public bool removeThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -295,7 +295,7 @@ public bool removeThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -331,7 +331,7 @@ public bool removeThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -357,7 +357,7 @@ public bool removeThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -396,7 +396,7 @@ public bool removeThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -422,7 +422,7 @@ public bool removeThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -458,7 +458,7 @@ public bool removeThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -484,7 +484,7 @@ public bool removeThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -503,132 +503,132 @@ public bool removeThisSpawn(int nPlayer)
         }
     }
 
-    if (nSelected == -1)
+    if (nSpawn == -1)
     {
         return false;
     }
 
-    nIndex = spawnIndexAndTeamByPos(fPosStamp[0], fPosStamp[1], fPosStamp[2], bTeamA);
+    nIdx = SpawnIdxAndTeamByPos(fPosStamp[0], fPosStamp[1], fPosStamp[2], bTeamA);
 
-    if (nIndex == -1)
+    if (nIdx == -1)
     {
         return false;
     }
 
-    AcceptEntityInput(nSelected, "KillHierarchy");
+    AcceptEntityInput(nSpawn, "KillHierarchy");
     {
-        for (nIter = 0, nNewA = 0; nIter < g_nTotalA; nIter++)
+        for (nItr = 0, nNewA = 0; nItr < g_nTotalA; nItr++)
         {
-            if (g_fPosA[nIter][0] == fPosStamp[0] && g_fPosA[nIter][1] == fPosStamp[1] && g_fPosA[nIter][2] == fPosStamp[2])
+            if (g_fPosA[nItr][0] == fPosStamp[0] && g_fPosA[nItr][1] == fPosStamp[1] && g_fPosA[nItr][2] == fPosStamp[2])
             {
                 /* ... */
             }
 
             else
             {
-                fPosCopyA[nNewA][0] = g_fPosA[nIter][0];
-                fPosCopyA[nNewA][1] = g_fPosA[nIter][1];
-                fPosCopyA[nNewA][2] = g_fPosA[nIter][2];
+                fPosCpyA[nNewA][0] = g_fPosA[nItr][0];
+                fPosCpyA[nNewA][1] = g_fPosA[nItr][1];
+                fPosCpyA[nNewA][2] = g_fPosA[nItr][2];
 
-                fAngCopyA[nNewA][0] = g_fAngA[nIter][0];
-                fAngCopyA[nNewA][1] = g_fAngA[nIter][1];
-                fAngCopyA[nNewA][2] = g_fAngA[nIter][2];
+                fAngCpyA[nNewA][0] = g_fAngA[nItr][0];
+                fAngCpyA[nNewA][1] = g_fAngA[nItr][1];
+                fAngCpyA[nNewA][2] = g_fAngA[nItr][2];
 
                 nNewA++;
             }
         }
 
-        for (nIter = 0, nNewB = 0; nIter < g_nTotalB; nIter++)
+        for (nItr = 0, nNewB = 0; nItr < g_nTotalB; nItr++)
         {
-            if (g_fPosB[nIter][0] == fPosStamp[0] && g_fPosB[nIter][1] == fPosStamp[1] && g_fPosB[nIter][2] == fPosStamp[2])
+            if (g_fPosB[nItr][0] == fPosStamp[0] && g_fPosB[nItr][1] == fPosStamp[1] && g_fPosB[nItr][2] == fPosStamp[2])
             {
                 /* ... */
             }
 
             else
             {
-                fPosCopyB[nNewB][0] = g_fPosB[nIter][0];
-                fPosCopyB[nNewB][1] = g_fPosB[nIter][1];
-                fPosCopyB[nNewB][2] = g_fPosB[nIter][2];
+                fPosCpyB[nNewB][0] = g_fPosB[nItr][0];
+                fPosCpyB[nNewB][1] = g_fPosB[nItr][1];
+                fPosCpyB[nNewB][2] = g_fPosB[nItr][2];
 
-                fAngCopyB[nNewB][0] = g_fAngB[nIter][0];
-                fAngCopyB[nNewB][1] = g_fAngB[nIter][1];
-                fAngCopyB[nNewB][2] = g_fAngB[nIter][2];
+                fAngCpyB[nNewB][0] = g_fAngB[nItr][0];
+                fAngCpyB[nNewB][1] = g_fAngB[nItr][1];
+                fAngCpyB[nNewB][2] = g_fAngB[nItr][2];
 
                 nNewB++;
             }
         }
     }
 
-    for (nIter = 0, g_nTotalA = nNewA; nIter < nNewA; nIter++)
+    for (nItr = 0, g_nTotalA = nNewA; nItr < nNewA; nItr++)
     {
-        g_fPosA[nIter][0] = fPosCopyA[nIter][0];
-        g_fPosA[nIter][1] = fPosCopyA[nIter][1];
-        g_fPosA[nIter][2] = fPosCopyA[nIter][2];
+        g_fPosA[nItr][0] = fPosCpyA[nItr][0];
+        g_fPosA[nItr][1] = fPosCpyA[nItr][1];
+        g_fPosA[nItr][2] = fPosCpyA[nItr][2];
 
-        g_fAngA[nIter][0] = fAngCopyA[nIter][0];
-        g_fAngA[nIter][1] = fAngCopyA[nIter][1];
-        g_fAngA[nIter][2] = fAngCopyA[nIter][2];
+        g_fAngA[nItr][0] = fAngCpyA[nItr][0];
+        g_fAngA[nItr][1] = fAngCpyA[nItr][1];
+        g_fAngA[nItr][2] = fAngCpyA[nItr][2];
     }
 
-    for (nIter = 0, g_nTotalB = nNewB; nIter < nNewB; nIter++)
+    for (nItr = 0, g_nTotalB = nNewB; nItr < nNewB; nItr++)
     {
-        g_fPosB[nIter][0] = fPosCopyB[nIter][0];
-        g_fPosB[nIter][1] = fPosCopyB[nIter][1];
-        g_fPosB[nIter][2] = fPosCopyB[nIter][2];
+        g_fPosB[nItr][0] = fPosCpyB[nItr][0];
+        g_fPosB[nItr][1] = fPosCpyB[nItr][1];
+        g_fPosB[nItr][2] = fPosCpyB[nItr][2];
 
-        g_fAngB[nIter][0] = fAngCopyB[nIter][0];
-        g_fAngB[nIter][1] = fAngCopyB[nIter][1];
-        g_fAngB[nIter][2] = fAngCopyB[nIter][2];
+        g_fAngB[nItr][0] = fAngCpyB[nItr][0];
+        g_fAngB[nItr][1] = fAngCpyB[nItr][1];
+        g_fAngB[nItr][2] = fAngCpyB[nItr][2];
     }
 
-    PrintToChat(nPlayer, "(#%02d %c) Pos %.1f %.1f %.1f", nIndex, bTeamA ? 'A' : 'B', fPosStamp[0], fPosStamp[1], fPosStamp[2]);
+    PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nIdx, bTeamA ? 'A' : 'B', fPosStamp[0], fPosStamp[1], fPosStamp[2]);
     {
-        PrintToChat(nPlayer, "%02d Entries For Team %c", bTeamA ? nNewA : nNewB, bTeamA ? 'A' : 'B');
+        PrintToChat(nPlr, "%02d Total For Team %c", bTeamA ? nNewA : nNewB, bTeamA ? 'A' : 'B');
     }
 
     return true;
 }
 
-public int spawnIndexAndTeamByPos(float fX, float fY, float fZ, bool & bTeamA)
+public int SpawnIdxAndTeamByPos(float fX, float fY, float fZ, bool & bTeamA)
 {
-    static int nIter = 0;
+    static int nItr = 0;
 
     bTeamA = false;
 
-    for (nIter = 0, bTeamA = true; nIter < g_nTotalA; nIter++)
+    for (nItr = 0, bTeamA = true; nItr < g_nTotalA; nItr++)
     {
-        if (g_fPosA[nIter][0] == fX && g_fPosA[nIter][1] == fY && g_fPosA[nIter][2] == fZ)
+        if (g_fPosA[nItr][0] == fX && g_fPosA[nItr][1] == fY && g_fPosA[nItr][2] == fZ)
         {
-            return nIter;
+            return nItr;
         }
     }
 
-    for (nIter = 0, bTeamA = false; nIter < g_nTotalB; nIter++)
+    for (nItr = 0, bTeamA = false; nItr < g_nTotalB; nItr++)
     {
-        if (g_fPosB[nIter][0] == fX && g_fPosB[nIter][1] == fY && g_fPosB[nIter][2] == fZ)
+        if (g_fPosB[nItr][0] == fX && g_fPosB[nItr][1] == fY && g_fPosB[nItr][2] == fZ)
         {
-            return nIter;
+            return nItr;
         }
     }
 
     return -1;
 }
 
-public bool tryThisSpawn(int nPlayer)
+public bool TryThis(int nPlr)
 {
-    static int nEntity = -1, nSelected = -1, nIndex = -1, nApprox = 0;
+    static int nEntity = -1, nSpawn = -1, nIdx = -1, nApprox = 0;
 
     static bool bTeamA = false;
 
     static float fPos[3] = { 0.000000, ... }, fAng[3] = { 0.000000, ... }, fEyePos[3] = { 0.000000, ... }, fDis = 0.000000, fDisStamp = 1711489163.000000,
         fPosStamp[3] = { 0.000000, ... }, fAngStamp[3] = { 0.000000, ... };
 
-    GetClientEyePosition(nPlayer, fEyePos);
+    GetClientEyePosition(nPlr, fEyePos);
     {
         fDisStamp = 1711489163.000000;
         {
-            nSelected = -1;
+            nSpawn = -1;
         }
     }
 
@@ -652,7 +652,7 @@ public bool tryThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -691,7 +691,7 @@ public bool tryThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -740,7 +740,7 @@ public bool tryThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -779,7 +779,7 @@ public bool tryThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -831,7 +831,7 @@ public bool tryThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -870,7 +870,7 @@ public bool tryThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -919,7 +919,7 @@ public bool tryThisSpawn(int nPlayer)
                                     {
                                         if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                         {
-                                            nSelected = nEntity;
+                                            nSpawn = nEntity;
                                             {
                                                 fDisStamp = fDis;
                                                 {
@@ -958,7 +958,7 @@ public bool tryThisSpawn(int nPlayer)
                                 {
                                     if ((fDis = VecDis2D(fEyePos, fPos)) < fDisStamp)
                                     {
-                                        nSelected = nEntity;
+                                        nSpawn = nEntity;
                                         {
                                             fDisStamp = fDis;
                                             {
@@ -990,20 +990,20 @@ public bool tryThisSpawn(int nPlayer)
         }
     }
 
-    if (nSelected == -1)
+    if (nSpawn == -1)
     {
         return false;
     }
 
-    nIndex = spawnIndexAndTeamByPos(fPosStamp[0], fPosStamp[1], fPosStamp[2], bTeamA);
+    nIdx = SpawnIdxAndTeamByPos(fPosStamp[0], fPosStamp[1], fPosStamp[2], bTeamA);
     {
-        if (nIndex != -1)
+        if (nIdx != -1)
         {
-            TeleportEntity(nPlayer, fPosStamp, fAngStamp, NULL_VECTOR);
+            TeleportEntity(nPlr, fPosStamp, fAngStamp, NULL_VECTOR);
             {
-                PrintToChat(nPlayer, "(#%02d %c) Ang 0 %d 0", nIndex, bTeamA ? 'A' : 'B', (((nApprox = RoundToNearest(fAngStamp[1])) == 180) ? (-180) : (nApprox)));
+                PrintToChat(nPlr, "(#%02d %c) Ang 0 %d 0", nIdx, bTeamA ? 'A' : 'B', (((nApprox = RoundToNearest(fAngStamp[1])) == 180) ? (-180) : (nApprox)));
                 {
-                    PrintToChat(nPlayer, "(#%02d %c) Pos %.1f %.1f %.1f", nIndex, bTeamA ? 'A' : 'B', fPosStamp[0], fPosStamp[1], fPosStamp[2]);
+                    PrintToChat(nPlr, "(#%02d %c) Pos %.1f %.1f %.1f", nIdx, bTeamA ? 'A' : 'B', fPosStamp[0], fPosStamp[1], fPosStamp[2]);
                     {
                         return true;
                     }
@@ -1015,7 +1015,7 @@ public bool tryThisSpawn(int nPlayer)
     return false;
 }
 
-public bool FilterPlayer(int nEntity, int nCnts, int nPlr)
+public bool FilterPlr(int nEntity, int nCnts, int nPlr)
 {
     return nPlr != nEntity;
 }
@@ -1269,7 +1269,7 @@ public float VecDis2D(float fVecA[3], float fVecB[3])
 
 public bool GoodDisToSpawnEntry(int nPlr)
 {
-    static int nEntity = 0;
+    static int nEntity = -1;
     static float fPos[3] = { 0.000000, ... }, fEyePos[3] = { 0.000000, ... }, fPlrPos[3] = { 0.000000, ... };
 
     GetClientEyePosition(nPlr, fEyePos);
@@ -1424,7 +1424,7 @@ public bool GoodDisToSpawnEntry(int nPlr)
 
 public Action TmrGlow(Handle hTmr, any nData)
 {
-    static int nEntity = 0;
+    static int nEntity = -1;
     static float fPos[3] = { 0.000000, ... };
 
     if (!g_bActive)
@@ -1651,7 +1651,7 @@ public bool GoodDisToWall(int nPlr)
             {
                 fAng[1] = fYaw;
                 {
-                    TR_TraceRayFilter(fEyePos, fAng, 1711489163, RayType_Infinite, FilterPlayer, nPlr);
+                    TR_TraceRayFilter(fEyePos, fAng, 1711489163, RayType_Infinite, FilterPlr, nPlr);
                     {
                         TR_GetEndPosition(fPos);
                         {
@@ -1662,7 +1662,7 @@ public bool GoodDisToWall(int nPlr)
                         }
                     }
 
-                    TR_TraceRayFilter(fPlrPos, fAng, 1711489163, RayType_Infinite, FilterPlayer, nPlr);
+                    TR_TraceRayFilter(fPlrPos, fAng, 1711489163, RayType_Infinite, FilterPlr, nPlr);
                     {
                         TR_GetEndPosition(fPos);
                         {
@@ -1687,7 +1687,7 @@ public bool GoodDisToWall(int nPlr)
                 {
                     fAng[1] = fYaw;
                     {
-                        TR_TraceRayFilter(fPlrPos, fAng, 1711489163, RayType_Infinite, FilterPlayer, nPlr);
+                        TR_TraceRayFilter(fPlrPos, fAng, 1711489163, RayType_Infinite, FilterPlr, nPlr);
                         {
                             TR_GetEndPosition(fPos);
                             {
@@ -1713,7 +1713,7 @@ public bool GoodDisToWall(int nPlr)
                 {
                     fAng[1] = fYaw;
                     {
-                        TR_TraceRayFilter(fPlrPos, fAng, 1711489163, RayType_Infinite, FilterPlayer, nPlr);
+                        TR_TraceRayFilter(fPlrPos, fAng, 1711489163, RayType_Infinite, FilterPlr, nPlr);
                         {
                             TR_GetEndPosition(fPos);
                             {
@@ -1735,7 +1735,7 @@ public bool GoodDisToWall(int nPlr)
         {
             fAng[2] = 0.000000;
             {
-                TR_TraceRayFilter(fEyePos, fAng, 1711489163, RayType_Infinite, FilterPlayer, nPlr);
+                TR_TraceRayFilter(fEyePos, fAng, 1711489163, RayType_Infinite, FilterPlr, nPlr);
                 {
                     TR_GetEndPosition(fPos);
                     {
@@ -1765,7 +1765,7 @@ public void TryMkDir(char[] szDir)
     }
 }
 
-public void TryOnceReadOffs(int nEntity, char[] szItm, int& nOffs)
+public void TryOnceReadOffs(int nEntity, char[] szItm, int & nOffs)
 {
     static int nItr = 0;
     {
@@ -1808,7 +1808,7 @@ public void TryOnceReadOffs(int nEntity, char[] szItm, int& nOffs)
     }
 }
 
-public void TryOnceReadOffsComplex(int nEntity, char[] szItm, int& nOffs, int& nBytes)
+public void TryOnceReadOffsComplex(int nEntity, char[] szItm, int & nOffs, int & nBytes)
 {
     static int nItr = 0, nBits = 0;
     {
@@ -1959,7 +1959,7 @@ public void SkipMultiSpaces(char[] szItm, int nMax)
 
 public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szArg)
 {
-    static int nEntity = 0, nItr = 0, nStamp = 0, nTime = 0, nArgs = 0, nId = 0, nTeam = 0, nApprox = 0;
+    static int nEntity = -1, nItr = 0, nStamp = 0, nTime = 0, nArgs = 0, nId = 0, nTeam = 0, nApprox = 0;
     static Handle hFile = null;
     static char szArgs[4][128], szTmp[256] = { 0, ... };
     static float fPos[3] = { 0.000000, ... }, fAng[3] = { 0.000000, ... }, fApprox = 0.000000;
@@ -2260,7 +2260,7 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                 }
                                             }
 
-                                            if (!removeThisSpawn(nPlr))
+                                            if (!RmThis(nPlr))
                                             {
                                                 PrintToChat(nPlr, "Error Deleting Spawn Entry");
                                                 {
@@ -2281,7 +2281,7 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                 }
                                             }
 
-                                            if (!tryThisSpawn(nPlr))
+                                            if (!TryThis(nPlr))
                                             {
                                                 PrintToChat(nPlr, "Error Trying Spawn Entry");
                                                 {
@@ -2726,7 +2726,7 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                             {
                                                                 PrintToChat(nPlr, "*ENABLED* Custom Spawn Entries Mode");
                                                                 {
-                                                                    ParseOrigVars();
+                                                                    ParseOrgVars();
                                                                     {
                                                                         ApplyCustomVars();
                                                                         {
@@ -2746,7 +2746,7 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
                                                             {
                                                                 PrintToChat(nPlr, "*DISABLED* Custom Spawn Entries Mode");
                                                                 {
-                                                                    RestoreOrigVars();
+                                                                    RestoreOrgVars();
                                                                 }
                                                             }
                                                         }
@@ -2964,7 +2964,7 @@ public Action OnClientSayCommand(int nPlr, const char[] szCmd, const char[] szAr
 
 public Action TmrAng(Handle hTmr, any nUsrId)
 {
-    static float fAng[3] = { 0.000000, ... }, fOrigYaw = 0.000000, fAbsOrigYaw = 0.000000, fAbsYaw = 0.000000;
+    static float fAng[3] = { 0.000000, ... }, fOrgYaw = 0.000000, fAbsOrgYaw = 0.000000, fAbsYaw = 0.000000;
     {
         static int nPlr = 0, nYaw = 0, nEnd = 0;
         {
@@ -2988,7 +2988,7 @@ public Action TmrAng(Handle hTmr, any nUsrId)
                                             {
                                                 GetClientEyeAngles(nPlr, fAng);
                                                 {
-                                                    fOrigYaw = fAng[1];
+                                                    fOrgYaw = fAng[1];
                                                     {
                                                         nYaw = RoundToNearest(fAng[1]);
                                                         {
@@ -3023,13 +3023,13 @@ public Action TmrAng(Handle hTmr, any nUsrId)
                                                                     {
                                                                         if (g_nEngVs != Engine_CSGO)
                                                                         {
-                                                                            fAbsOrigYaw = FloatAbs(fOrigYaw);
+                                                                            fAbsOrgYaw = FloatAbs(fOrgYaw);
                                                                             {
                                                                                 fAbsYaw = FloatAbs(fAng[1]);
                                                                                 {
-                                                                                    if (fAbsOrigYaw >= fAbsYaw)
+                                                                                    if (fAbsOrgYaw >= fAbsYaw)
                                                                                     {
-                                                                                        if (fAbsOrigYaw - fAbsYaw > 0.009)
+                                                                                        if (fAbsOrgYaw - fAbsYaw > 0.009)
                                                                                         {
                                                                                             TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
                                                                                             {
@@ -3040,7 +3040,7 @@ public Action TmrAng(Handle hTmr, any nUsrId)
 
                                                                                     else
                                                                                     {
-                                                                                        if (fAbsYaw - fAbsOrigYaw > 0.009)
+                                                                                        if (fAbsYaw - fAbsOrgYaw > 0.009)
                                                                                         {
                                                                                             TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
                                                                                             {
@@ -3054,7 +3054,7 @@ public Action TmrAng(Handle hTmr, any nUsrId)
 
                                                                         else
                                                                         {
-                                                                            if (fOrigYaw != fAng[1])
+                                                                            if (fOrgYaw != fAng[1])
                                                                             {
                                                                                 TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
                                                                                 {
@@ -3071,13 +3071,13 @@ public Action TmrAng(Handle hTmr, any nUsrId)
                                                                     {
                                                                         if (g_nEngVs != Engine_CSGO)
                                                                         {
-                                                                            fAbsOrigYaw = FloatAbs(fOrigYaw);
+                                                                            fAbsOrgYaw = FloatAbs(fOrgYaw);
                                                                             {
                                                                                 fAbsYaw = FloatAbs(fAng[1]);
                                                                                 {
-                                                                                    if (fAbsOrigYaw >= fAbsYaw)
+                                                                                    if (fAbsOrgYaw >= fAbsYaw)
                                                                                     {
-                                                                                        if (fAbsOrigYaw - fAbsYaw > 0.009)
+                                                                                        if (fAbsOrgYaw - fAbsYaw > 0.009)
                                                                                         {
                                                                                             TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
                                                                                             {
@@ -3088,7 +3088,7 @@ public Action TmrAng(Handle hTmr, any nUsrId)
 
                                                                                     else
                                                                                     {
-                                                                                        if (fAbsYaw - fAbsOrigYaw > 0.009)
+                                                                                        if (fAbsYaw - fAbsOrgYaw > 0.009)
                                                                                         {
                                                                                             TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
                                                                                             {
@@ -3102,7 +3102,7 @@ public Action TmrAng(Handle hTmr, any nUsrId)
 
                                                                         else
                                                                         {
-                                                                            if (fOrigYaw != fAng[1])
+                                                                            if (fOrgYaw != fAng[1])
                                                                             {
                                                                                 TeleportEntity(nPlr, NULL_VECTOR, fAng, NULL_VECTOR);
                                                                                 {
